@@ -42,6 +42,20 @@ ID3：<input type="checkbox" name="ids" value="3" id="ids">
 地址：<input type="text" name="user.address" id="address">
 <input type="submit" value="提交">
 </form>
+<form action="${pageContext.request.contextPath }/user/getUserCustomList.do" method="post">
+姓名：<input type="text" name="list[0].username" id="username">
+性别：<input type="text" name="list[0].sex" id="sex">
+姓名：<input type="text" name="list[1].username" id="username">
+性别：<input type="text" name="list[1].sex" id="sex">
+<input type="submit" value="提交">
+</form>
+
+<form action="${pageContext.request.contextPath }/user/getUserCustomMap.do" method="post">
+姓名：<input type="text" name="map['username']" id="username">
+性别：<input type="text" name="map['sex']" id="sex">
+地址：<input type="text" name="map['address']" id="address">
+<input type="submit" value="提交">
+</form>
   </body>
 </html>
 
@@ -79,6 +93,17 @@ public class UserController {
 	}
 	@RequestMapping("getUserCustom")
 	public String getUserCustom(UserCustom user){
+		System.out.println(user);
+		return "index";
+	}
+	@RequestMapping("getUserCustomList")
+	public String getUserCustomList(UserCustom user){
+		System.out.println(user);
+		return "index";
+	}
+	
+	@RequestMapping("getUserCustomMap")
+	public String getUserCustomMap(UserCustom user){
 		System.out.println(user);
 		return "index";
 	}
