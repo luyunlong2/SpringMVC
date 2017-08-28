@@ -1,0 +1,100 @@
+--各种类型参数传递
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+
+  </head>
+  
+  <body>
+   <form action="${pageContext.request.contextPath }/user/getUser.do" method="post">
+姓名：<input type="text" name="username" id="username">
+性别：<input type="text" name="sex" id="sex">
+地址：<input type="text" name="address" id="address">
+<input type="submit" value="提交">
+</form>
+
+ <form action="${pageContext.request.contextPath }/user/getInt.do" method="post">
+ID：<input type="text" name="id" id="id">
+<input type="submit" value="提交">
+</form>
+
+<form action="${pageContext.request.contextPath }/user/getStr.do" method="post">
+name：<input type="text" name="username" id="username">
+<input type="submit" value="提交">
+</form>
+
+ <form action="${pageContext.request.contextPath }/user/getUser.do" method="post">
+ID1:：<input type="checkbox" name="ids" value="1" id="ids">
+ID2：<input type="checkbox" name="ids" value="2" id="ids">
+ID3：<input type="checkbox" name="ids" value="3" id="ids">
+<input type="submit" value="提交">
+</form>
+
+ <form action="${pageContext.request.contextPath }/user/getUserCustom.do" method="post">
+姓名：<input type="text" name="user.username" id="username">
+性别：<input type="text" name="user.sex" id="sex">
+地址：<input type="text" name="user.address" id="address">
+<input type="submit" value="提交">
+</form>
+  </body>
+</html>
+
+--Controol
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	
+	@RequestMapping("add")
+	public String add(){
+		return "Add";
+	}
+	
+	@RequestMapping("getInt")
+	public String getInt(Integer id){
+		System.out.println(id);
+		return "index";
+	}
+	
+	@RequestMapping("getStr")
+	public String getStr(String username){
+		System.out.println(username);
+		return "index";
+	}
+	
+	@RequestMapping("getUser")
+	public String getUser(User user){
+		System.out.println(user);
+		return "index";
+	}
+	@RequestMapping("getArray")
+	public String getArray(Integer[] ids){
+		System.out.println(ids);
+		return "index";
+	}
+	@RequestMapping("getUserCustom")
+	public String getUserCustom(UserCustom user){
+		System.out.println(user);
+		return "index";
+	}
+}
+--springmvc-servlet.xml
+	<!-- 注解扫描 -->	
+	<context:component-scan base-package="org.controller"></context:component-scan>	
+	<!-- 配置注解处理器映射器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	<!-- 配置注解处理器适配器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	
+	
+	
+	<!-- 视图解析器  前缀+逻辑视图+后缀=/jsps/index.jsp-->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsps/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
